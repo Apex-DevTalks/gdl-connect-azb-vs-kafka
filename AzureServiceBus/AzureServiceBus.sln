@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gdl-connect-azb-sender", "gdl-connect-azb-sender\gdl-connect-azb-sender.csproj", "{82495B59-A618-4F78-B679-A095E575B49B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gdl-connect-azb-receiver", "gdl-connect-azb-receiver\gdl-connect-azb-receiver.csproj", "{9E3CBBEE-4460-447B-9228-0FEBAAF3D9CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82495B59-A618-4F78-B679-A095E575B49B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82495B59-A618-4F78-B679-A095E575B49B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82495B59-A618-4F78-B679-A095E575B49B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82495B59-A618-4F78-B679-A095E575B49B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3CBBEE-4460-447B-9228-0FEBAAF3D9CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3CBBEE-4460-447B-9228-0FEBAAF3D9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3CBBEE-4460-447B-9228-0FEBAAF3D9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3CBBEE-4460-447B-9228-0FEBAAF3D9CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
