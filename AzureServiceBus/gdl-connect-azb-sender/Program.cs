@@ -10,7 +10,7 @@ ServiceBusClient client;
 ServiceBusSender sender;
 
 // number of messages to be sent to the topic
-const int numOfMessages = 3;
+const int numOfMessages = 30;
 
 IConfigurationRoot config = new ConfigurationBuilder()
             .AddUserSecrets<Program>()
@@ -52,6 +52,3 @@ finally
     await sender.DisposeAsync();
     await client.DisposeAsync();
 }
-
-Console.WriteLine("Press any key to end the application");
-Console.ReadKey();
