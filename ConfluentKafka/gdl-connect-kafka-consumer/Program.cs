@@ -3,39 +3,51 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Confluent.Kafka;
 
-class Program {
-  public static IConfiguration readConfig() {
-    // reads the client configuration from client.properties
-    // and returns it as a configuration object
-    return new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddIniFile("client.properties", false)
-    .Build();
-  }
+class Program
+{
+	private static readonly CancellationTokenSource cts = new();
 
-  public static void consume (string topic, IConfiguration config) {
-    config["group.id"] = "csharp-group-1";
-    config["auto.offset.reset"] = "earliest";
+	static void Main(string[] args)
+	{
+		IConfiguration config = new ConfigurationBuilder()
+		.SetBasePath(Directory.GetCurrentDirectory())
+		.AddIniFile("client.properties", false)
+		.Build();
 
-    // creates a new consumer instance
-    using (var consumer = new ConsumerBuilder<string, string>(config.AsEnumerable()).Build()) {
-      consumer.Subscribe(topic);
-      while (true) {
-        // consumes messages from the subscribed topic and prints them to the console
-        var cr = consumer.Consume();
-        Console.WriteLine($"Consumed event from topic {topic}: key = {cr.Message.Key,-10} value = {cr.Message.Value}");
-      }
+		const string topic = "gdl-connect-kafka-topic";
 
-      // closes the consumer connection
-      consumer.Close();
-    }
-  }
+		config["group.id"] = "csharp-group-1";
+		config["auto.offset.reset"] = "earliest";
+		
 
-  public static void Main (string[] args) {
-    // producer and consumer code here
-    IConfiguration config = readConfig();
-    const string topic = "gdl-connect-kafka-topic";
-    
-    consume(topic, config); 
-  }
+		Console.CancelKeyPress += (sender, eventArgs) =>
+		{
+			Console.WriteLine("Ctrl+C has been pressed. Initiating shutdown process...");
+			cts.Cancel();
+			eventArgs.Cancel = true;
+		};
+
+		Console.WriteLine("Application has started. Ctrl-C to end");
+
+        // creates a new consumer instance
+        using var consumer = new ConsumerBuilder<string, string>(config.AsEnumerable()).Build();
+        consumer.Subscribe(topic);
+		
+        while (!cts.Token.IsCancellationRequested)
+        {
+            // consumes messages from the subscribed topic and prints them to the console
+            try
+			{
+				var cr = consumer.Consume(cts.Token);
+	            Console.WriteLine($"Consumed event from topic {topic}: key = {cr.Message.Key,-10} value = {cr.Message.Value}");
+			}
+			catch (OperationCanceledException) { }
+        }
+
+        // closes the consumer connection
+        consumer.Close();
+
+		Console.WriteLine("The consumer was closed correctly");
+		Console.WriteLine("Now shutting down");
+	}
 }
